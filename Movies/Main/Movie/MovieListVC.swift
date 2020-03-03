@@ -8,6 +8,8 @@
 
 import UIKit
 
+let movies_data = ["Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker"]
+
 class MovieListVC: UIViewController {
     
     var tableView = UITableView()
@@ -16,32 +18,43 @@ class MovieListVC: UIViewController {
         super.viewDidLoad()
         
         title = "Movies"
+        iniViews()
+    }
+    
+}
+
+extension MovieListVC {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies_data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        cell.textLabel?.text = movies_data[indexPath.row]
+        
+        return cell
+    }
+}
+
+
+extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func iniViews() {
         view.backgroundColor = .systemBackground
         initTableView()
     }
     
-}
-
-extension UIView {
-    
-    func pinToEdges(to superView: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
-        topAnchor.constraint(equalTo: superView.topAnchor).isActive = true
-        leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
-        trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
-        bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
-    }
-    
-}
-
-extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
-    
     func initTableView() {
+        setTableViewDelegates()
         view.addSubview(tableView)
         
-        setTableViewDelegates()
-        tableView.rowHeight = 200
-        tableView.pinToEdges(to: view)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func setTableViewDelegates() {
@@ -49,13 +62,4 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
-    }
-    
 }
-

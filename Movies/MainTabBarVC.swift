@@ -40,7 +40,6 @@ extension UIColor {
     static var opposite: UIColor {
         if #available(iOS 13.0, *) {
             return UIColor { (traits) -> UIColor in
-                // Return one of two colors depending on light or dark mode
                 return traits.userInterfaceStyle == .dark ?
                     .white :
                     .black
