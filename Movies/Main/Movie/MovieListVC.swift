@@ -7,36 +7,59 @@
 //
 
 import UIKit
+import Alamofire
 
 let movies_data = ["Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker"]
 
 class MovieListVC: UIViewController {
     
     var tableView = UITableView()
+    var movies: [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Movies"
         iniViews()
+        fetchMovies()
     }
     
 }
 
+// HTTP
+extension MovieListVC {
+    
+    func fetchMovies() {
+        let request = AF.request("https://api.themoviedb.org/3/discover/movie", method: .get, parameters: ["api_key": "e5febdac386ca4c9c59e9379f3b25bac", "page": 1], encoding: URLEncoding(destination: .queryString)).validate()
+        
+        request.responseDecodable(of: MOVIES_API_RESPONSE.self) { (response) in
+            guard let movies = response.value?.results else { return }
+            self.movies = movies
+            self.tableView.reloadData()
+        }
+    }
+    
+}
+
+struct MOVIES_API_RESPONSE: Codable {
+    var results: [Movie]
+}
+
+// TABLE
 extension MovieListVC {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies_data.count
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = movies_data[indexPath.row]
+        cell.textLabel?.text = movies[indexPath.row].title
         
         return cell
     }
 }
 
-
+// USER INTERFACE
 extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
     
     func iniViews() {
