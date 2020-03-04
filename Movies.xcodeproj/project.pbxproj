@@ -19,6 +19,8 @@
 		7C7EC4BC240EA832001FA6D4 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7EC4BB240EA832001FA6D4 /* SettingsVC.swift */; };
 		7CC45C8F240ECC60005139AE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7CC45C8E240ECC60005139AE /* Alamofire */; };
 		7CC45C91240ED4F8005139AE /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC45C90240ED4F8005139AE /* Movie.swift */; };
+		7CC45C95240EEB9E005139AE /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC45C94240EEB9E005139AE /* MovieCell.swift */; };
+		7CC45C97240F7B33005139AE /* MovieDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC45C96240F7B33005139AE /* MovieDetailsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		7C7EC4B9240EA33C001FA6D4 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchVC.swift; path = Movies/Main/Search/SearchVC.swift; sourceTree = SOURCE_ROOT; };
 		7C7EC4BB240EA832001FA6D4 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Movies/Main/Settings/SettingsVC.swift; sourceTree = SOURCE_ROOT; };
 		7CC45C90240ED4F8005139AE /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		7CC45C94240EEB9E005139AE /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		7CC45C96240F7B33005139AE /* MovieDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				7C7EC484240EA041001FA6D4 /* MovieListVC.swift */,
+				7CC45C96240F7B33005139AE /* MovieDetailsVC.swift */,
+				7CC45C94240EEB9E005139AE /* MovieCell.swift */,
 				7CC45C90240ED4F8005139AE /* Movie.swift */,
 			);
 			path = Movie;
@@ -317,8 +323,10 @@
 			files = (
 				7CC45C91240ED4F8005139AE /* Movie.swift in Sources */,
 				7C7EC485240EA041001FA6D4 /* MovieListVC.swift in Sources */,
+				7CC45C95240EEB9E005139AE /* MovieCell.swift in Sources */,
 				7C7EC4BA240EA33C001FA6D4 /* SearchVC.swift in Sources */,
 				7C7EC481240EA041001FA6D4 /* AppDelegate.swift in Sources */,
+				7CC45C97240F7B33005139AE /* MovieDetailsVC.swift in Sources */,
 				7C7EC483240EA041001FA6D4 /* SceneDelegate.swift in Sources */,
 				7C7EC4B8240EA2FF001FA6D4 /* MainTabBarVC.swift in Sources */,
 				7C7EC4BC240EA832001FA6D4 /* SettingsVC.swift in Sources */,

@@ -9,12 +9,14 @@
 struct Movie: Codable {
     var id: Int
     var title: String
+    var overview: String
     var releaseDate: String
     var voteAverage: Double
 
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
+        case overview = "overview"
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
     }

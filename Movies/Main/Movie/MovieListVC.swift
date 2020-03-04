@@ -9,19 +9,34 @@
 import UIKit
 import Alamofire
 
-let movies_data = ["Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker", "Saving private Ryan", "Troy", "Joker"]
-
 class MovieListVC: UIViewController {
     
+    private let MOVIE_CELL = "MovieCell"
     var tableView = UITableView()
+    
     var movies: [Movie] = []
+    var isLoadingMore = false;
+    
+    var pageNumber = 1
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Movies"
+        title = "Popular"
         iniViews()
-        fetchMovies()
+        fetchInitialMovies()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.height {
+            if !isLoadingMore {
+                fetchMoreMovies()
+            }
+        }
     }
     
 }
@@ -29,13 +44,38 @@ class MovieListVC: UIViewController {
 // HTTP
 extension MovieListVC {
     
-    func fetchMovies() {
-        let request = AF.request("https://api.themoviedb.org/3/discover/movie", method: .get, parameters: ["api_key": "e5febdac386ca4c9c59e9379f3b25bac", "page": 1], encoding: URLEncoding(destination: .queryString)).validate()
+    func fetchInitialMovies() {
+        let request = AF.request(
+            "https://api.themoviedb.org/3/movie/popular",
+            method: .get,
+            parameters: ["api_key": "e5febdac386ca4c9c59e9379f3b25bac", "page": pageNumber],
+            encoding: URLEncoding(destination: .queryString)
+        ).validate()
         
         request.responseDecodable(of: MOVIES_API_RESPONSE.self) { (response) in
             guard let movies = response.value?.results else { return }
             self.movies = movies
+            self.pageNumber += 1
             self.tableView.reloadData()
+        }
+    }
+    
+    func fetchMoreMovies() {
+        isLoadingMore = true
+        
+        let request = AF.request(
+            "https://api.themoviedb.org/3/movie/popular",
+            method: .get,
+            parameters: ["api_key": "e5febdac386ca4c9c59e9379f3b25bac", "page": pageNumber],
+            encoding: URLEncoding(destination: .queryString)
+        ).validate()
+        
+        request.responseDecodable(of: MOVIES_API_RESPONSE.self) { (response) in
+            guard let movies = response.value?.results else { return }
+            self.movies.append(contentsOf: movies)
+            self.pageNumber += 1
+            self.tableView.reloadData()
+            self.isLoadingMore = false
         }
     }
     
@@ -52,10 +92,19 @@ extension MovieListVC {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = movies[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: MOVIE_CELL) as! MovieCell
+        let movie = movies[indexPath.row]
+        cell.set(movie: movie)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = MovieDetailsVC()
+        destinationVC.movie = movies[indexPath.row]
+        
+        navigationController?.pushViewController(destinationVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -63,8 +112,12 @@ extension MovieListVC {
 extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
     
     func iniViews() {
-        view.backgroundColor = .systemBackground
+        initNavBar()
         initTableView()
+    }
+    
+    func initNavBar() {
+        navigationController?.navigationBar.tintColor = .opposite
     }
     
     func initTableView() {
@@ -72,12 +125,13 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.tableView.register(MovieCell.self, forCellReuseIdentifier: MOVIE_CELL)
     }
     
     func setTableViewDelegates() {
