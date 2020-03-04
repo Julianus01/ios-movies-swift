@@ -15,9 +15,8 @@ class MovieListVC: UIViewController {
     var tableView = UITableView()
     
     var movies: [Movie] = []
-    var isLoadingMore = false;
-    
     var pageNumber = 1
+    var isLoadingMore = false;
     
     
     override func viewDidLoad() {
@@ -26,6 +25,8 @@ class MovieListVC: UIViewController {
         title = "Popular"
         iniViews()
         fetchInitialMovies()
+        
+        tableView.rowHeight = 140
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -123,6 +124,8 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
     func initTableView() {
         setTableViewDelegates()
         view.addSubview(tableView)
+        
+        //        tableView.rowHeight = 220
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         

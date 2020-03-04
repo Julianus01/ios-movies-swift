@@ -23,32 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D2798CF1-B833-4CDC-9DA2-6092941CFFA5"
+            uuid = "3E0E8F57-A709-433E-B0EB-04AA72C48647"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Movies/Main/Movie/MovieListVC.swift"
+            filePath = "Movies/Main/Movie/MovieCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "fetchInitialMovies()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "47C04FD8-3285-4420-9C6D-8D6B80675539"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Movies/Main/Movie/MovieListVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "fetchMoreMovies()"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "set(movie:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
