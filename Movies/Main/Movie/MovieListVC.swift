@@ -125,7 +125,6 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         
         tableView.rowHeight = 160
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .none
         
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
