@@ -22,7 +22,7 @@ class MovieCell: UITableViewCell {
         didSet {
             titleLabel.text = movie.title
             overviewLabel.text = movie.overview
-            ratingLabel.text = movie.voteAverage.description
+            ratingLabel.text = "\(movie.voteAverage.description)/10"
             
             let url = URL(string: BASE_URL + IMAGE_SIZE + movie.posterPath)
             posterImage.kf.setImage(with: url)
@@ -82,6 +82,7 @@ extension MovieCell {
     func initRatingLabel() {
         addSubview(ratingLabel)
         ratingLabel.textColor = .orange
+        ratingLabel.font = UIFont.systemFont(ofSize: 12)
         
         ratingLabel.translatesAutoresizingMaskIntoConstraints = false
         ratingLabel.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 40).isActive = true
@@ -90,7 +91,6 @@ extension MovieCell {
     
     func initPosterImage() {
         addSubview(posterImage)
-        posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.contentMode = .scaleAspectFit
         
         posterImage.layer.shadowColor = UIColor.black.cgColor
@@ -98,6 +98,7 @@ extension MovieCell {
         posterImage.layer.shadowOffset = CGSize(width: 0, height: 10)
         posterImage.layer.shadowRadius = 10
         
+        posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         posterImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
         posterImage.widthAnchor.constraint(equalToConstant: 80).isActive = true

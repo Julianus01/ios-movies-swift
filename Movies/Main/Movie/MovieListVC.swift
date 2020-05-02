@@ -102,6 +102,7 @@ extension MovieListVC {
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movies[indexPath.row]
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.pushViewController(destinationVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
