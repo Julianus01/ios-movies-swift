@@ -25,8 +25,6 @@ class MovieListVC: UIViewController {
         title = "Popular"
         iniViews()
         fetchInitialMovies()
-        
-        tableView.rowHeight = 140
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -125,9 +123,9 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         setTableViewDelegates()
         view.addSubview(tableView)
         
-        //        tableView.rowHeight = 220
-        
+        tableView.rowHeight = 160
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
