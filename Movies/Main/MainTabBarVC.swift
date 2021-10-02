@@ -20,7 +20,7 @@ class MainTabBarVC: UITabBarController {
         
         let firstVC = UINavigationController(rootViewController: MovieListVC())
         firstVC.navigationBar.prefersLargeTitles = true
-        firstVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 0)
+        firstVC.tabBarItem = UITabBarItem(title: "Popular", image: UIImage(systemName: "magazine.fill"), tag: 0)
         
         let secondVC = UINavigationController(rootViewController: SearchVC())
         secondVC.navigationBar.prefersLargeTitles = true

@@ -14,6 +14,11 @@ class MovieDetailsVC: UIViewController {
     private final let BASE_URL = "https://image.tmdb.org/t/p/"
     private final let IMAGE_SIZE = "w780/"
     
+    var scrollView = UIScrollView()
+    var contentView = UIView()
+    var overviewLabel = UILabel()
+    var posterImage = UIImageView()
+    
     var movie: Movie! {
         didSet {
             let url = URL(string: BASE_URL + IMAGE_SIZE + movie.posterPath)
@@ -22,10 +27,6 @@ class MovieDetailsVC: UIViewController {
             overviewLabel.text = movie.overview
         }
     }
-    var scrollView = UIScrollView()
-    var contentView = UIView()
-    var overviewLabel = UILabel()
-    var posterImage = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

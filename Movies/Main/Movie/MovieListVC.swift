@@ -11,7 +11,7 @@ import Alamofire
 
 class MovieListVC: UIViewController {
     
-    private let MOVIE_CELL = "MovieCell"
+    private final let MOVIE_CELL = "MovieCell"
     var tableView = UITableView()
     
     var movies: [Movie] = []
@@ -132,7 +132,7 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         setTableViewDelegates()
         view.addSubview(tableView)
         
-        tableView.rowHeight = 220
+        tableView.rowHeight = 250
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         

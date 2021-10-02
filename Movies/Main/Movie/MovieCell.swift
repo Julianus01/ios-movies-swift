@@ -18,8 +18,10 @@ class MovieCell: UITableViewCell {
     let posterImage = UIImageView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
+    let ratingStarImage = UIImageView()
     let ratingValueLabel = UILabel()
     let ratingOutOfLabel = UILabel()
+    let ratingCountLabel = UILabel()
     
     
     var movie: Movie! {
@@ -27,6 +29,7 @@ class MovieCell: UITableViewCell {
             titleLabel.text = movie.title
             descriptionLabel.text = movie.overview
             ratingValueLabel.text = movie.voteAverage.description
+            ratingCountLabel.text = "\(movie.voteCount.description) reviews"
             
             let url = URL(string: BASE_URL + IMAGE_SIZE + movie.posterPath)
             posterImage.kf.setImage(with: url)
@@ -53,8 +56,10 @@ extension MovieCell {
         initPosterImage()
         initTitleLabel()
         initDescriptionLabel()
+        initRatingStarImage()
         initRatingValueLabel()
         initRatingOutOfLabel()
+        initRatingCountLabel()
     }
     
     func initPosterImage() {
@@ -62,15 +67,15 @@ extension MovieCell {
         posterImage.contentMode = .scaleAspectFit
         
         posterImage.layer.shadowColor = UIColor.black.cgColor
-        posterImage.layer.shadowOpacity = 0.2
+        posterImage.layer.shadowOpacity = 0.26
         posterImage.layer.shadowOffset = CGSize(width: 0, height: 10)
         posterImage.layer.shadowRadius = 10
         
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         posterImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        posterImage.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        posterImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        posterImage.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        posterImage.heightAnchor.constraint(equalToConstant: 210).isActive = true
     }
     
     func initTitleLabel() {
@@ -100,6 +105,17 @@ extension MovieCell {
         }
     }
     
+    func initRatingStarImage() {
+        addSubview(ratingStarImage)
+        
+        ratingStarImage.image = UIImage(systemName: "star.fill")?.withTintColor(.orange, renderingMode: .alwaysOriginal)
+        
+        ratingStarImage.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(14)
+            make.left.equalTo(posterImage.snp.right).offset(20)
+        }
+    }
+    
     func initRatingValueLabel() {
         addSubview(ratingValueLabel)
         
@@ -107,7 +123,7 @@ extension MovieCell {
         
         ratingValueLabel.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(12)
-            make.left.equalTo(posterImage.snp.right).offset(20)
+            make.left.equalTo(ratingStarImage.snp.right).offset(4)
         }
     }
     
@@ -118,8 +134,20 @@ extension MovieCell {
         ratingOutOfLabel.font = UIFont.systemFont(ofSize: 14)
         
         ratingOutOfLabel.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(18)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(16)
             make.left.equalTo(ratingValueLabel.snp.right).offset(2)
+        }
+    }
+    
+    func initRatingCountLabel() {
+        addSubview(ratingCountLabel)
+        
+        ratingCountLabel.font = UIFont.systemFont(ofSize: 12)
+        ratingCountLabel.textColor = .systemGray
+        
+        ratingCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(ratingStarImage.snp.bottom).offset(4)
+            make.left.equalTo(posterImage.snp.right).offset(20)
         }
     }
     
