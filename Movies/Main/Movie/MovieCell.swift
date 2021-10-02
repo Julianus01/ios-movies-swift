@@ -28,7 +28,7 @@ class MovieCell: UITableViewCell {
             titleLabel.text = movie.title
             descriptionLabel.text = movie.overview
             ratingValueLabel.text = movie.voteAverage.description
-            ratingCountLabel.text = "\(movie.voteCount.description) reviews"
+            ratingCountLabel.text = "\(movie.voteCount.description) ratings"
             
             let url = URL(string: BASE_URL + IMAGE_SIZE + movie.posterPath)
             posterImage.kf.setImage(with: url)
@@ -50,6 +50,8 @@ class MovieCell: UITableViewCell {
 extension MovieCell {
     
     func initUI() {
+        // With this, poster box shadow can go even to other cells
+        // otherwise it's cut off
         backgroundColor = .clear
         
         initPosterImage()

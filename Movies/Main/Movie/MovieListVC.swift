@@ -23,6 +23,7 @@ class MovieListVC: UIViewController {
         super.viewDidLoad()
         
         title = "Popular"
+        
         iniViews()
         fetchInitialMovies()
     }
@@ -128,7 +129,9 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func initTableView() {
-        setTableViewDelegates()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         view.addSubview(tableView)
         
         tableView.rowHeight = 250
@@ -141,11 +144,6 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         self.tableView.register(MovieCell.self, forCellReuseIdentifier: MOVIE_CELL)
-    }
-    
-    func setTableViewDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
     }
     
 }

@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class MovieDetailsVC: UIViewController, UIScrollViewDelegate {
+class MovieDetailsVC: UIViewController {
     
     private final let BASE_URL = "https://image.tmdb.org/t/p/"
     private final let IMAGE_SIZE = "w780/"
@@ -44,8 +44,7 @@ class MovieDetailsVC: UIViewController, UIScrollViewDelegate {
 extension MovieDetailsVC {
     
     func initUI() {
-        view.backgroundColor = .systemBackground
-        
+        initGeneral()
         initScrollView()
         initContentView()
         initPosterContainerView()
@@ -55,10 +54,13 @@ extension MovieDetailsVC {
         initOverviewLabel()
     }
     
+    func initGeneral() {
+        view.backgroundColor = .systemBackground
+    }
+    
     func initScrollView(){
         view.addSubview(scrollView)
         
-        scrollView.delegate = self
         scrollView.alwaysBounceVertical = true
         scrollView.contentInsetAdjustmentBehavior = .never
         
