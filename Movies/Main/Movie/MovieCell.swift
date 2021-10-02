@@ -23,7 +23,6 @@ class MovieCell: UITableViewCell {
     let ratingOutOfLabel = UILabel()
     let ratingCountLabel = UILabel()
     
-    
     var movie: Movie! {
         didSet {
             titleLabel.text = movie.title

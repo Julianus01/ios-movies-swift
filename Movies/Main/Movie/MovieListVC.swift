@@ -19,7 +19,6 @@ class MovieListVC: UIViewController {
     var pageNumber = 1
     var isLoadingMore = false;
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
