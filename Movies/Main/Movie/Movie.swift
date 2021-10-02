@@ -13,8 +13,6 @@ struct Movie: Codable {
     var releaseDate: String
     var voteAverage: Double
     var posterPath: String
-    
-    
 
     enum CodingKeys: String, CodingKey {
         case id = "id"

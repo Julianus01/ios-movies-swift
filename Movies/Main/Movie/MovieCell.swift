@@ -8,21 +8,25 @@
 
 import UIKit
 import Kingfisher
+import SnapKit
 
 class MovieCell: UITableViewCell {
     
     private final let BASE_URL = "https://image.tmdb.org/t/p/"
     private final let IMAGE_SIZE = "w500/"
     
-    var titleLabel = UILabel()
-    var overviewLabel = UILabel()
-    var ratingLabel = UILabel()
-    var posterImage = UIImageView()
+    let posterImage = UIImageView()
+    let titleLabel = UILabel()
+    let descriptionLabel = UILabel()
+    let ratingValueLabel = UILabel()
+    let ratingOutOfLabel = UILabel()
+    
+    
     var movie: Movie! {
         didSet {
             titleLabel.text = movie.title
-            overviewLabel.text = movie.overview
-            ratingLabel.text = "\(movie.voteAverage.description)/10"
+            descriptionLabel.text = movie.overview
+            ratingValueLabel.text = movie.voteAverage.description
             
             let url = URL(string: BASE_URL + IMAGE_SIZE + movie.posterPath)
             posterImage.kf.setImage(with: url)
@@ -39,54 +43,18 @@ class MovieCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(movie: Movie) {
-        self.movie = movie
-    }
-    
 }
 
 extension MovieCell {
     
     func initUI() {
+        backgroundColor = .clear
+        
         initPosterImage()
         initTitleLabel()
-        initOverviewLabel()
-        initRatingLabel()
-    }
-    
-    func initTitleLabel() {
-        addSubview(titleLabel)
-        
-        titleLabel.numberOfLines = 1
-        titleLabel.lineBreakMode = .byTruncatingTail
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 20).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-    }
-    
-    func initOverviewLabel() {
-        addSubview(overviewLabel)
-        
-        overviewLabel.numberOfLines = 2
-        overviewLabel.font = UIFont.systemFont(ofSize: 12)
-        overviewLabel.textColor = .systemGray
-        
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
-        overviewLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 20).isActive = true
-        overviewLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-    }
-    
-    func initRatingLabel() {
-        addSubview(ratingLabel)
-        ratingLabel.textColor = .orange
-        ratingLabel.font = UIFont.systemFont(ofSize: 12)
-        
-        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
-        ratingLabel.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 40).isActive = true
-        ratingLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 20).isActive = true
+        initDescriptionLabel()
+        initRatingValueLabel()
+        initRatingOutOfLabel()
     }
     
     func initPosterImage() {
@@ -101,8 +69,58 @@ extension MovieCell {
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         posterImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        posterImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        posterImage.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        posterImage.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        posterImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
+    }
+    
+    func initTitleLabel() {
+        addSubview(titleLabel)
+        
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byTruncatingTail
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+    }
+    
+    func initDescriptionLabel() {
+        addSubview(descriptionLabel)
+        
+        descriptionLabel.numberOfLines = 2
+        descriptionLabel.font = UIFont.systemFont(ofSize: 12)
+        descriptionLabel.textColor = .systemGray
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.left.equalTo(posterImage.snp.right).offset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.right.equalTo(contentView.snp.right).offset(-16)
+        }
+    }
+    
+    func initRatingValueLabel() {
+        addSubview(ratingValueLabel)
+        
+        ratingValueLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        ratingValueLabel.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(12)
+            make.left.equalTo(posterImage.snp.right).offset(20)
+        }
+    }
+    
+    func initRatingOutOfLabel() {
+        addSubview(ratingOutOfLabel)
+        
+        ratingOutOfLabel.text = "/10"
+        ratingOutOfLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        ratingOutOfLabel.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(18)
+            make.left.equalTo(ratingValueLabel.snp.right).offset(2)
+        }
     }
     
 }

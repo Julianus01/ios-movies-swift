@@ -15,6 +15,7 @@ class MovieListVC: UIViewController {
     var tableView = UITableView()
     
     var movies: [Movie] = []
+    var GENRES: [Genre] = []
     var pageNumber = 1
     var isLoadingMore = false;
     
@@ -44,15 +45,16 @@ class MovieListVC: UIViewController {
 extension MovieListVC {
     
     func fetchInitialMovies() {
-        let request = AF.request(
+        let moviesRequest = AF.request(
             "https://api.themoviedb.org/3/movie/popular",
             method: .get,
             parameters: ["api_key": "e5febdac386ca4c9c59e9379f3b25bac", "page": pageNumber],
             encoding: URLEncoding(destination: .queryString)
         ).validate()
         
-        request.responseDecodable(of: MOVIES_API_RESPONSE.self) { (response) in
-            guard let movies = response.value?.results else { return }
+        moviesRequest.responseDecodable(of: MOVIES_API_RESPONSE.self) { (moviesResponse) in
+            guard let movies = moviesResponse.value?.results else { return }
+            
             self.movies = movies
             self.pageNumber += 1
             self.tableView.reloadData()
@@ -84,7 +86,11 @@ struct MOVIES_API_RESPONSE: Codable {
     var results: [Movie]
 }
 
-// TABLE
+struct GENRES_API_RESPONSE: Codable {
+    var genres: [Genre]
+}
+
+// MARK: TABLE
 extension MovieListVC {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
@@ -93,7 +99,9 @@ extension MovieListVC {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MOVIE_CELL) as! MovieCell
         let movie = movies[indexPath.row]
-        cell.set(movie: movie)
+        
+        cell.selectionStyle = .none
+        cell.movie = movie
         
         return cell
     }
@@ -108,7 +116,7 @@ extension MovieListVC {
     }
 }
 
-// USER INTERFACE
+// MARK: USER INTERFACE
 extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
     
     func iniViews() {
@@ -124,8 +132,9 @@ extension MovieListVC: UITableViewDelegate, UITableViewDataSource {
         setTableViewDelegates()
         view.addSubview(tableView)
         
-        tableView.rowHeight = 160
+        tableView.rowHeight = 220
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
