@@ -16,7 +16,7 @@ class MainTabBarVC: UITabBarController {
     }
     
     func initView() {
-        self.tabBar.tintColor = .opposite
+        tabBar.tintColor = .orange
         
         let firstVC = UINavigationController(rootViewController: MovieListVC())
         firstVC.navigationBar.prefersLargeTitles = true

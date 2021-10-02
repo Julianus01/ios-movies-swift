@@ -17,7 +17,9 @@ class MovieDetailsVC: UIViewController, UIScrollViewDelegate {
     
     let scrollView = UIScrollView()
     let contentView = UIView()
+    let posterContainerView = UIView()
     let posterImage = UIImageView()
+    let imageTopGradientView = UIView()
     let imageGradientView = UIView()
     let overviewLabel = UILabel()
     
@@ -36,19 +38,6 @@ class MovieDetailsVC: UIViewController, UIScrollViewDelegate {
         initUI()
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > 0 { return }
-        
-        var scale = 1.0 + abs(scrollView.contentOffset.y)  / scrollView.frame.size.height
-        scale = max(0.0, scale)
-    
-        let scaleTransform = CGAffineTransform.init(scaleX: scale, y: scale)
-        let translateTransform = CGAffineTransform.init(translationX: 0, y: scrollView.contentOffset.y)
-        let transform = scaleTransform.concatenating(translateTransform)
-        
-        posterImage.transform = transform
-    }
-    
 }
 
 // MARK: User Interface
@@ -59,7 +48,9 @@ extension MovieDetailsVC {
         
         initScrollView()
         initContentView()
+        initPosterContainerView()
         initPosterImage()
+        initTopImageGradientView()
         initImageGradientView()
         initOverviewLabel()
     }
@@ -89,6 +80,16 @@ extension MovieDetailsVC {
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
     }
     
+    func initPosterContainerView() {
+        contentView.addSubview(posterContainerView)
+        
+        posterContainerView.snp.makeConstraints { make in
+            make.top.equalTo(scrollView)
+            make.left.right.equalTo(view)
+            make.height.equalTo(posterContainerView.snp.width).multipliedBy(1.5)
+        }
+    }
+    
     
     func initPosterImage() {
         contentView.addSubview(posterImage)
@@ -96,11 +97,33 @@ extension MovieDetailsVC {
         posterImage.contentMode = .scaleAspectFill
         posterImage.clipsToBounds = true
         
-        posterImage.translatesAutoresizingMaskIntoConstraints = false
-        posterImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        posterImage.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        posterImage.heightAnchor.constraint(equalToConstant: 550).isActive = true
+        posterImage.snp.makeConstraints { make in
+            make.left.right.equalTo(posterContainerView)
+            make.top.equalTo(view).priority(.high)
+            make.height.greaterThanOrEqualTo(posterContainerView.snp.height).priority(.required)
+            make.bottom.equalTo(posterContainerView.snp.bottom)
+        }
+    }
+    
+    func initTopImageGradientView() {
+        contentView.addSubview(imageTopGradientView)
+        
+        let colorTop = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        let colorBottom = UIColor.clear
+                    
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [colorTop, colorBottom]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 80)
+        
+        imageTopGradientView.layer.insertSublayer(gradientLayer, at:0)
+        
+        imageTopGradientView.snp.makeConstraints { make in
+            make.left.equalTo(posterImage.snp.left)
+            make.top.equalTo(posterImage.snp.top)
+            make.right.equalTo(posterImage.snp.right)
+            make.height.equalTo(80)
+        }
     }
     
     func initImageGradientView(){
@@ -129,7 +152,6 @@ extension MovieDetailsVC {
         
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         overviewLabel.numberOfLines = 0
-        overviewLabel.font = UIFont.systemFont(ofSize: 12)
         
         overviewLabel.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 40).isActive = true
         overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
